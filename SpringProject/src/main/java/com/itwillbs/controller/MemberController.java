@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.itwillbs.domain.MemberDTO;
+import com.itwillbs.service.MemberService;
+import com.itwillbs.service.MemberServiceImpl;
 
 @Controller
 public class MemberController {
@@ -49,6 +51,17 @@ public class MemberController {
 		// 패키지 com.itwillbs.dao	 	MemberDAOImpl
 		// 패키지 com.itwillbs.domain	 	MemberDTO
 		
+		
+//	1. MemberServiceImpl 객체생성
+//		MemberServiceImpl memberServiceImpl = new MemberServiceImpl();
+//		메서드 호출
+//		memberServiceImpl.insertMember(memberDTO);
+		
+//	2. MemberServiceImpl 부모인터페이스 객체생성 - 자식만 수정하게끔(수정을 최소화)
+		// 부모 = 자식 (업캐스팅)
+		MemberService memberService=new MemberServiceImpl() ;
+		// 메서드호출
+		memberService.insertMember(memberDTO);
 		
 		// 주소 변경하면서 이동(하는 방식) redirect:로그인가상주소 => 로그인 화면으로 이동
 		return "redirect:/member/login";

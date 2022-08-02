@@ -1,2 +1,2 @@
-# learnSpring
+# studySpring
 

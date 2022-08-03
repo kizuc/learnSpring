@@ -4,5 +4,44 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
+<!-- 		생성자 방식 -->
+<!-- 	<bean id="memberController" class="com.itwillbs.controller.MemberController"> -->
+<!-- 		<constructor-arg ref="memberService"></constructor-arg> -->
+<!-- 	</bean> -->
+<!-- 		생성자를 만들고왔는데 에러가 남 => 이 구문은 기본생성자 구문이라서 멤버를 받는 생성자를 만들어야 함 -->
 		
+<!-- 		set메서드 방식 -->
+<!-- xml에서 데이터 주고받으려면 무조건 객체를 생성 => bean은 객체를 생성 -->
+<!-- MemberController memberController=new MemberController(); -->
+		<bean id="memberController" class="com.itwillbs.controller.MemberController">
+			<property name="memberService" ref="memberService"></property>
+<!-- 			memberService => memberController의 set 메서드 호출 -->
+		</bean>
+		
+		
+<!-- 		MemberService memberService = new MemberServiceImpl() 객체생성 -->
+<!-- 		두번째 방식으로 객체 생성, 부모=자식 업캐스팅 방식 -->
+<!-- 멤버서비스(부모) 멤버서비스임플을 멤버컨트롤러에 전달시켜줄 거다 -->
+	<bean id="memberService" class="com.itwillbs.service.MemberServiceImpl">
+		<property name="memberDAO" ref="memberDAO"></property>
+	</bean>
+<!-- 		여기 id memberService가 ref memberService로 감 -->
+
+<!-- 	MemberDAO memberDAO=new MemberDAOImpl() 객체생성 -->
+	<bean id="memberDAO" class="com.itwillbs.dao.MemberDAOImpl">
+	</bean>
+
+
+
+	<bean id="boardController" class="com.itwillbs.controller.BoardController">
+		<property name="boardService" ref="boardService"></property>
+	</bean>
+
+	<bean id="boardService" class="com.itwillbs.service.BoardServiceImpl">
+		<property name="boardDAO" ref="boardDAO"></property>
+	</bean>
+
+	<bean id="boardDAO" class="com.itwillbs.dao.BoardDAOImpl">
+	</bean>
+	
 </beans>

@@ -1,5 +1,6 @@
 package com.itwillbs.controller;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,34 @@ import com.itwillbs.service.MemberServiceImpl;
 
 @Controller
 public class MemberController {
-
+	// 스프링 객체 생성 방식
+	// DI(Dependency Injection 의존관계 주입) 간접적으로 객체를 생성하는 방법 - 자바의 큰 개념
+	// 의존관계 : 객체 생성한다~ => 클래스와 클래스의 관계가 의존관계(필요로 하는 관계)
+	// 주입 : xml에서 객체를 생성해서 필요로 하는 곳으로 set메서드를 통해 전달시켜준다는 의미
+//	MemberServiceImpl과 MemberController는 아무 관계도 아닌 클래스인데 객체를 생성하고 싶을 때 의존관계
+	
+	// xml에서 객체 생성한 주소값을 저장할 변수를 정의 => 멤버변수 MemberService 부모 인터페이스 저장
+//	MemberService memberService=newMemberServiceImpl()
+//	부모인터페이스 변수로 업캐스팅돼서 부모 인터페이스에 전달되게끔, private으로 은닉
+	
+//	xml에서 객체 생성해서 set메서드로 생성한 거 전달하면 부모가 받는
+	@Inject
+	private MemberService memberService;
+//	아래   생성자를 통해 memberService로 간접적으로 전달
+	
+	// 생성자 (초기값을 memberService 객체 생성한 값으로 받기)
+//	@Inject
+//	public MemberController(MemberService memberService) {
+//		this.memberService= memberService;
+//	}
+	
+	// set메서드로 객체 생성한 값 받게끔 // memberService객체 생성한 값 받기
+	@Inject
+	public void setMemberService(MemberService memberService) {
+		this.memberService = memberService;
+	}
+	
+	
 	// 가상주소 시작점 http://localhost:8080/myweb/member/insert
 	// => /member/insert => member/insertForm.jsp 이동
 	@RequestMapping(value = "/member/insert", method = RequestMethod.GET)
@@ -59,12 +87,21 @@ public class MemberController {
 		
 //	2. MemberServiceImpl 부모인터페이스 객체생성 - 자식만 수정하게끔(수정을 최소화)
 		// 부모 = 자식 (업캐스팅)
-		MemberService memberService=new MemberServiceImpl() ;
+//		MemberService memberService=new MemberServiceImpl() ;
 		// 메서드호출
+//		memberService.insertMember(memberDTO);
+		
+//	3. 객체 생성 new MemberServiceImpl()를 스프링파일 xml에서 생성을 하고
+//		자바파일에서 필요하면 스프링파일에서 객체 생성한 값을 전달(스프링파일 하나만 수정하면 모든 파일이 수정되게끔)
+//		메서드 안에서 객체 생성하지 않고 멤버변수 단에서 객체 생성
 		memberService.insertMember(memberDTO);
+		
 		
 		// 주소 변경하면서 이동(하는 방식) redirect:로그인가상주소 => 로그인 화면으로 이동
 		return "redirect:/member/login";
+		
+		
+		
 	}
 	
 	

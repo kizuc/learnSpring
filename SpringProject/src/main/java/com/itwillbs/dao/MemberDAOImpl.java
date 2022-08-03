@@ -6,6 +6,8 @@ public class MemberDAOImpl implements MemberDAO{
 	// DB 작업하는 곳
 	public void insertMember(MemberDTO memberDTO) {
 		System.out.println("MemberDAOImpl insertMember()");
+		// 디비작업
+		
 	}
 	
 	// 메서드 정의
